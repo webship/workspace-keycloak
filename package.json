@@ -1,0 +1,104 @@
+{
+  "name": "@webship.co/workspace-keycloak",
+  "version": "1.0.0",
+  "description": "Keycloak for Webship Workspace: the builder (`cmd-keycloak-project.sh`, a sign-in server in its official container with a realm imported from a file and a small test app next to it) and the server's admin CLI tool in every sites folder, the default accounts (one with a one-time code), the Keycloak step pack wired into the testing setup, and its AI items in their folders: two agents, a skill, a command and two prompts.",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webship/workspace-keycloak.git"
+  },
+  "files": [
+    "dist/src",
+    "ai",
+    "commands",
+    "features",
+    "scripts",
+    "testing",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "workspacePlugin": {
+    "name": "keycloak",
+    "label": "Keycloak",
+    "needs": [
+      [
+        "dev",
+        "test",
+        "sandboxes",
+        "demos"
+      ],
+      "ai-agents",
+      "ai-skills",
+      "ai-commands",
+      "ai-prompts"
+    ],
+    "commands": {
+      "types": [
+        "sites"
+      ],
+      "workspaces": [
+        "dev",
+        "test",
+        "sandboxes",
+        "demos"
+      ],
+      "files": [
+        "commands/cmd-keycloak-project.sh",
+        "commands/cmd-tools-keycloak-admin.sh"
+      ]
+    },
+    "scripts": {
+      "functions": [
+        "scripts/functions/fun-keycloak.sh"
+      ],
+      "args": [
+        "scripts/args/arg-keycloak.sh",
+        "scripts/args/arg-keycloak-admin.sh"
+      ],
+      "machine": [
+        "scripts/keycloak-site.sh",
+        "scripts/keycloak-realm.json",
+        "scripts/app/keycloak-app.html",
+        "scripts/app/keycloak-app.js",
+        "scripts/app/keycloak-app.css",
+        "scripts/app/keycloak-silent-check-sso.html",
+        "scripts/app/keycloak-app-package.json",
+        "testing/site.feature"
+      ]
+    },
+    "ai": {
+      "agents": [
+        "ai/agents/keycloak-site-builder.md",
+        "ai/agents/keycloak-tester.md"
+      ],
+      "skills": [
+        "ai/skills/keycloak-scenarios"
+      ],
+      "commands": [
+        "ai/commands/keycloak-test.md"
+      ],
+      "prompts": [
+        "ai/prompts/keycloak-build-and-test.md",
+        "ai/prompts/keycloak-scenarios-for-an-area.md"
+      ]
+    },
+    "features": [
+      "features/keycloak.feature"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@webship.co/workspace-plugin-api": "^1.0.11",
+    "typescript": "^5.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

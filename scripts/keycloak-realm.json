@@ -1,0 +1,85 @@
+{
+  "realm": "webship",
+  "displayName": "Webship test sign-in",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
+  "rememberMe": true,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "internationalizationEnabled": false,
+  "otpPolicyType": "totp",
+  "otpPolicyAlgorithm": "HmacSHA1",
+  "otpPolicyDigits": 6,
+  "otpPolicyLookAheadWindow": 1,
+  "otpPolicyPeriod": 30,
+  "otpPolicyCodeReusable": false,
+  "smtpServer": {
+    "host": "${SMTP_HOST:web}",
+    "port": "${SMTP_PORT:1025}",
+    "from": "noreply@example.com",
+    "fromDisplayName": "Webship test sign-in",
+    "auth": "false",
+    "ssl": "false",
+    "starttls": "false"
+  },
+  "roles": {
+    "realm": [
+      {
+        "name": "editor",
+        "description": "Edits the content of the test app."
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "webship-app",
+      "name": "Webship test app",
+      "description": "The test app at the root of the site: it sends a person here to sign in and shows who is signed in.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": false,
+      "frontchannelLogout": true,
+      "rootUrl": "${APP_URL}",
+      "baseUrl": "/",
+      "redirectUris": ["${APP_URL}/*"],
+      "webOrigins": ["${APP_URL}"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "${APP_URL}/*"
+      }
+    },
+    {
+      "clientId": "webship-partner",
+      "name": "Webship partner app",
+      "description": "The same test app at /partner/, as an app of another party: a person grants it access on the consent screen first.",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": true,
+      "frontchannelLogout": true,
+      "rootUrl": "${APP_URL}/partner",
+      "baseUrl": "/",
+      "redirectUris": ["${APP_URL}/partner/*"],
+      "webOrigins": ["${APP_URL}"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "${APP_URL}/partner/*"
+      }
+    }
+  ]
+}

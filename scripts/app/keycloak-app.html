@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Webship test app</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/app.css">
+  <script type="importmap">{ "imports": { "keycloak-js": "/node_modules/keycloak-js/lib/keycloak.js" } }</script>
+</head>
+<body data-client="webship-app" data-app-name="Webship test app">
+  <header>
+    <h1>Webship test app</h1>
+    <p>A test app that signs people in through the site's sign-in server.</p>
+  </header>
+  <main>
+    <p id="status" role="status" aria-live="polite">Checking the sign-in…</p>
+    <p id="error" role="alert" hidden></p>
+    <section id="signed-in" aria-labelledby="signed-in-heading" hidden>
+      <h2 id="signed-in-heading">Your account</h2>
+      <dl>
+        <dt>Username</dt><dd id="username"></dd>
+        <dt>Name</dt><dd id="name"></dd>
+        <dt>Email</dt><dd id="email"></dd>
+        <dt>Roles</dt><dd id="roles"></dd>
+      </dl>
+      <p>
+        <button type="button" id="sign-out">Sign out</button>
+        <a id="account" href="#">Manage your account</a>
+      </p>
+    </section>
+    <section id="signed-out" aria-labelledby="signed-out-heading" hidden>
+      <h2 id="signed-out-heading">Welcome</h2>
+      <p>
+        <button type="button" id="sign-in">Sign in</button>
+        <a id="register" href="#">Register</a>
+      </p>
+    </section>
+    <nav aria-label="Apps">
+      <ul>
+        <li><a href="/">Webship test app</a></li>
+        <li><a href="/partner/">Webship partner app</a></li>
+      </ul>
+    </nav>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "webship-test-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The test app of the step pack's site: it sends a person to the sign-in server and shows who is signed in. It uses the official JavaScript adapter, keycloak-js (Apache-2.0), served from node_modules/.",
+  "license": "MIT",
+  "dependencies": {
+    "keycloak-js": "26.2.5"
+  }
+}
