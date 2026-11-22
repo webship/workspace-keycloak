@@ -70,7 +70,7 @@ app's packages are the containers'. The plugin asks for no command of its own on
 | `scripts/args/arg-keycloak.sh`, `arg-keycloak-admin.sh` | Their argparse; the Build form draws the builder's flags from the first |
 | `scripts/keycloak-site.sh` | Run by bash in the server's container with the server's own admin CLI: the workspace account as the admin of the master realm, the default accounts, their listing (the same script the step pack's test site is built with) |
 | `scripts/keycloak-realm.json` | The test realm `webship` (the step pack's): its two clients (the test app, and the same app asking for consent), its role, its one-time code policy, its mail to the project's mail catcher |
-| `scripts/app/` | The test app: a page with the official JavaScript adapter (`keycloak-js`, Apache-2.0, from npm) |
+| `scripts/app/` | The test app: a page with the official JavaScript adapter (`keycloak-js`, Apache-2.0, from npm); its script is built from `keycloak-app.ts` |
 | `testing/site.feature` | The first feature a site gets when testing is set up |
 | `ai/agents/keycloak-site-builder.md` | The agent that builds and maintains sign-in servers with these commands |
 | `ai/agents/keycloak-tester.md` | The agent that writes and runs scenarios with the Keycloak step pack |
@@ -261,11 +261,15 @@ Every step phrase the items show is checked against the definitions of the step 
 ## Develop it
 
 ```bash
-npm install     # builds dist/ (TypeScript)
-npm run lint
+npm install     # builds dist/ and scripts/app/keycloak-app.js (TypeScript)
+npm run lint    # tsc over src/ and tests/, and over the test app (tsconfig.app.json, erasable syntax only)
 npm test        # the manifest, the commands, the AI items, the functions against a scaffolded project
 ```
 
-CI runs the same on Node.js 20 and 24, parses every shell script, and runs the plugin's
+The test app's script is TypeScript too: `scripts/app/keycloak-app.ts`. A browser does not run TypeScript, so
+`npm run build` compiles it to `scripts/app/keycloak-app.js` beside it, the file the builder copies into a site
+as `app.js`. The built file is in the published package and is not committed.
+
+CI runs the same on Node.js 22 and 26, parses every shell script, and runs the plugin's
 `features/keycloak.feature` against a dashboard with this plugin installed
 (`webship/workspace/.github/workflows/plugin-browser-suite.yml`).

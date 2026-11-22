@@ -1,2 +1,4 @@
 node_modules/
 dist/
+# Built from scripts/app/keycloak-app.ts by `npm run build` (tsconfig.app.json).
+/scripts/app/keycloak-app.js

@@ -268,3 +268,25 @@ test('the first feature names no platform in a step, and no password', () => {
   assert.doesNotMatch(feature, /dD\.123123ddd|O5SWE43/);
   assert.doesNotMatch(feature, /try to register|Create your account/i, 'a first feature makes no account');
 });
+
+test('the test app\'s script is built from a TypeScript source, for a browser, with the adapter the app installs', () => {
+  const source = path.join(PKG, 'scripts', 'app', 'keycloak-app.ts');
+  const built = path.join(PKG, 'scripts', 'app', 'keycloak-app.js');
+  assert.ok(fs.existsSync(source), 'scripts/app/keycloak-app.ts is the source');
+  assert.ok(fs.existsSync(built), 'npm run build wrote scripts/app/keycloak-app.js');
+  const js = fs.readFileSync(built, 'utf8');
+  // An ES module a browser loads as it is: the adapter by its bare name (the page's import map), no CommonJS.
+  assert.match(js, /^import Keycloak from 'keycloak-js';$/m);
+  assert.doesNotMatch(js, /\brequire\(|\bexports\.|^import type /m);
+  // It parses as an ES module (Node.js checks the syntax; it does not run it: there is no page).
+  const copy = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'keycloak-app-')), 'app.mjs');
+  fs.copyFileSync(built, copy);
+  const check = spawnSync(process.execPath, ['--check', copy], { encoding: 'utf8' });
+  assert.strictEqual(check.status, 0, check.stderr);
+  // The built file is not committed, and the types it is checked against are the release the app installs.
+  const ignored = fs.readFileSync(path.join(PKG, '.gitignore'), 'utf8').split('\n');
+  assert.ok(ignored.includes('/scripts/app/keycloak-app.js'));
+  const pkg = JSON.parse(fs.readFileSync(path.join(PKG, 'package.json'), 'utf8')) as { devDependencies: Record<string, string> };
+  const app = JSON.parse(fs.readFileSync(path.join(PKG, 'scripts', 'app', 'keycloak-app-package.json'), 'utf8')) as { dependencies: Record<string, string> };
+  assert.strictEqual(pkg.devDependencies['keycloak-js'], app.dependencies['keycloak-js']);
+});
