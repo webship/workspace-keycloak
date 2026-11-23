@@ -270,6 +270,6 @@ The test app's script is TypeScript too: `scripts/app/keycloak-app.ts`. A browse
 `npm run build` compiles it to `scripts/app/keycloak-app.js` beside it, the file the builder copies into a site
 as `app.js`. The built file is in the published package and is not committed.
 
-CI runs the same on Node.js 22 and 26, parses every shell script, and runs the plugin's
+CI runs the same on Node.js 24 and 26, parses every shell script, and runs the plugin's
 `features/keycloak.feature` against a dashboard with this plugin installed
 (`webship/workspace/.github/workflows/plugin-browser-suite.yml`).
